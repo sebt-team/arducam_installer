@@ -309,6 +309,24 @@ verlte() {
     [  "$1" = "`echo -e "$1\n$2" | sort -V | head -n1`" ]
 }
 
+changeDebFilePermissions() {
+    DEB_FILE=$1
+    if [ -f "$DEB_FILE" ]; then
+        chmod 644 "$DEB_FILE"
+    fi
+}
+
+installPackage() {
+    PACKAGE_NAME=$1
+    DEB_FILE="/home/bestore-raspberry/${PACKAGE_NAME}_1.5.3-2_arm64.deb"
+
+    # Cambiar permisos del archivo .deb
+    changeDebFilePermissions "$DEB_FILE"
+
+    # Intentar instalar el paquete
+    dpkg -i "$DEB_FILE"
+}
+
 while getopts hldv:p: flag
 do
     case "${flag}" in
