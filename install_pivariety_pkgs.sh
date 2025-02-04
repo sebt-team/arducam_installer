@@ -9,6 +9,7 @@ pkg_version=$code_name
 rpi_kernel=$(dpkg-query -f '${Version}' --show raspberrypi-kernel)
 BLACKLIST=/etc/modprobe.d/raspi-blacklist.conf
 
+
 debug_mode=false
 
 $(dpkg-architecture -earm64)
@@ -21,9 +22,13 @@ if [[ $? == 1 && $code_name != "buster" ]]; then
     pkg_version=$pkg_version"-v5"
 fi
 
+echo ""
+echo ""
 echo "****************************************************************************"
 echo "**************************** FRESH EDIT VERSION ****************************"
 echo "****************************************************************************"
+echo ""
+echo ""
 
 echo "================================================="
 echo "Hardware Revision: ${rev}"
@@ -527,7 +532,7 @@ else
 
 
     rm -f $package_cfg_name
-    wget -O $package_cfg_name $package_cfg_download_link
+    sudo wget -O $package_cfg_name $package_cfg_download_link
     source $package_cfg_name
 
     download_link=
@@ -577,7 +582,7 @@ else
     fi
 
     rm -rf $pkg_name
-    wget -O $pkg_name $download_link
+    sudo wget -O $pkg_name $download_link
 
     if [[ ( $? -ne 0) || (! -f "${pkg_name}") ]]; then
         echo -e "${RED}download failed${NC}"
@@ -626,4 +631,5 @@ else
         echo -e "${RED}Unknown error, please send the error message to support@arducam.com${NC}"
         exit -1
     fi
+
 fi
